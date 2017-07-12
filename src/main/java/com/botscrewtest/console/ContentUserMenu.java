@@ -18,7 +18,6 @@ public class ContentUserMenu {
     }
 
     public void mainMenu() {
-        mark:
         while (true) {
             VisualUserMenu.printListInConsole(ListMenu.getServiceHeader(), ListMenu.getServiceMainMenu());
             Integer action;
@@ -26,12 +25,12 @@ public class ContentUserMenu {
             switch (action) {
                 case (1):
                     VisualUserMenu.outputSplitLine();
-                    bookmenu();
+                    bookMenu();
                     break;
                 case (2):
                     VisualUserMenu.outputSplitLine();
                     System.out.println("\tThank you for using our manager.");
-                    break mark;
+                    return;
                 default:
                     VisualUserMenu.outputSplitLine();
                     System.out.println(ERROR_INCORRECT_MENU_ITEM_SELECTED);
@@ -39,8 +38,7 @@ public class ContentUserMenu {
         }
     }
 
-    public void bookmenu() {
-        mark:
+    public void bookMenu() {
         while (true) {
             VisualUserMenu.printListInConsole(ListMenu.getServiceHeaderBook(), ListMenu.getServiceBookMenu());
             Integer action;
@@ -51,7 +49,8 @@ public class ContentUserMenu {
                     break;
                 case (2):
                     String name = visualUserMenu.getValidInput("Please enter book name", InputType.STRING);
-                    String author = visualUserMenu.getValidInput("Please enter author's credentials", InputType.STRING);
+                    String author = visualUserMenu
+                            .getValidInput("Please enter author's credentials", InputType.STRING);
                     bookController.addNewBook(new Book(name, author));
                     System.out.println("Book " + author + " \"" + name + "\" was  successfully added");
                     break;
@@ -68,7 +67,8 @@ public class ContentUserMenu {
 
                     break;
                 case (4):
-                    name = visualUserMenu.getValidInput("Please enter book name which you want to edit", InputType.STRING);
+                    name = visualUserMenu
+                            .getValidInput("Please enter book name which you want to edit", InputType.STRING);
 
                     if (bookController.getBooksByName(name).size() == 0) {
                         System.out.println(BOOK_NOT_FOUND);
@@ -77,21 +77,29 @@ public class ContentUserMenu {
                         for (Book book : bookController.getBooksByName(name)) {
                             System.out.println("#" + book.getId() + " " + book.getAuthor() + " \"" + book.getName() + "\"");
                         }
-                        int choice = Integer.valueOf(visualUserMenu.getValidInput("Enter the number: ", InputType.INTEGER));
-                        String newName = visualUserMenu.getValidInput("Enter new name: ", InputType.STRING);
-                        author = visualUserMenu.getValidInput("Please enter new author's credentials", InputType.STRING);
+                        int choice = Integer
+                                .valueOf(visualUserMenu.getValidInput("Enter the number: ",
+                                        InputType.INTEGER));
+                        String newName = visualUserMenu
+                                .getValidInput("Enter new name: ", InputType.STRING);
+                        author = visualUserMenu
+                                .getValidInput("Please enter new author's credentials", InputType.STRING);
                         bookController.updateBook(choice, new Book(newName, author));
                         System.out.println("Book " + author + " \"" + name + "\" was successfully updated");
                     } else {
                         String newName = visualUserMenu.getValidInput("Enter new name: ", InputType.STRING);
-                        author = visualUserMenu.getValidInput("Please enter new author's credentials", InputType.STRING);
-                        bookController.updateBook(bookController.getBooksByName(name).get(0).getId(), new Book(newName, author));
+                        author = visualUserMenu
+                                .getValidInput("Please enter new author's credentials", InputType.STRING);
+                        bookController.updateBook(bookController
+                                .getBooksByName(name).get(0).getId(), new Book(newName, author));
                         System.out.println("Book " + author + " \"" + name + "\" was successfully updated");
                     }
 
                     break;
                 case (5):
-                    name = visualUserMenu.getValidInput("Please enter book name which you want to delete", InputType.STRING);
+                    name = visualUserMenu
+                            .getValidInput("Please enter book name which you want to delete",
+                                    InputType.STRING);
                     if (bookController.getBooksByName(name).size() == 0) {
                         System.out.println(BOOK_NOT_FOUND);
                     } else if (bookController.getBooksByName(name).size() > 1) {
@@ -99,7 +107,9 @@ public class ContentUserMenu {
                         for (Book book : bookController.getBooksByName(name)) {
                             System.out.println("#" + book.getId() + " " + book.getAuthor() + " " + book.getName());
                         }
-                        int choice = Integer.valueOf(visualUserMenu.getValidInput("Enter the number of book which you want to delete: ", InputType.INTEGER));
+                        int choice = Integer.valueOf(visualUserMenu
+                                .getValidInput("Enter the number of book which you want to delete: ",
+                                        InputType.INTEGER));
                         bookController.deleteBook(choice);
                         System.out.println();
                         System.out.println("Book \"" + name + "\" was successfully deleted");
@@ -111,7 +121,7 @@ public class ContentUserMenu {
                     break;
                 case (6):
                     VisualUserMenu.outputSplitLine();
-                    break mark;
+                    return;
                 default:
                     VisualUserMenu.outputSplitLine();
                     System.out.println(ERROR_INCORRECT_MENU_ITEM_SELECTED);

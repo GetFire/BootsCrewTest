@@ -24,7 +24,8 @@ public abstract class AbstractDao<T extends Book> implements GenericDao<T> {
 
     @Override
     public void add(T toAdd) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO " + table + " (name, author) VALUE (?, ?);")) {
+        try (PreparedStatement statement = connection
+                .prepareStatement("INSERT INTO " + table + " (name, author) VALUE (?, ?);")) {
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             connection.setAutoCommit(false);
             statement.setString(1, toAdd.getName());
@@ -61,7 +62,8 @@ public abstract class AbstractDao<T extends Book> implements GenericDao<T> {
     @Override
     public T getById(int id) {
         T result = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE " + column + " = ?;")) {
+        try (PreparedStatement statement = connection
+                .prepareStatement("SELECT * FROM " + table + " WHERE " + column + " = ?;")) {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -76,7 +78,8 @@ public abstract class AbstractDao<T extends Book> implements GenericDao<T> {
     @Override
     public List<T> getByName(String name) {
         List<T> result = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table + " WHERE name ='" + name + "'")) {
+        try (PreparedStatement statement = connection
+                .prepareStatement("SELECT * FROM " + table + " WHERE name ='" + name + "'")) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 T t = createEntity(rs);
@@ -91,7 +94,8 @@ public abstract class AbstractDao<T extends Book> implements GenericDao<T> {
     @Override
     public boolean deleteById(int id) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM " + table + " WHERE " + column + " = ?;")) {
+        try (PreparedStatement statement = connection
+                .prepareStatement("DELETE FROM " + table + " WHERE " + column + " = ?;")) {
             statement.setInt(1, id);
             if (statement.executeUpdate() > 0) {
                 result = true;
@@ -105,7 +109,8 @@ public abstract class AbstractDao<T extends Book> implements GenericDao<T> {
     @Override
     public boolean updateById(int id, T toUpdate) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE " + table + " SET name = ?, author = ? WHERE " + column + "=?;")) {
+        try (PreparedStatement statement = connection
+                .prepareStatement("UPDATE " + table + " SET name = ?, author = ? WHERE " + column + "=?;")) {
             String name = toUpdate.getName();
             String author = toUpdate.getAuthor();
             statement.setString(1, name);
